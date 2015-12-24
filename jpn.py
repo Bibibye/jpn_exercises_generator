@@ -154,7 +154,7 @@ def reading_exercise(tables, exercise_size = 10, line_size = 10):
             print(next(exercise), end="")
         print("")
 
-def quizz_exercice(tables, exercise_size = 10):
+def quizz_exercise(tables, exercise_size = 10):
     good_answers = 0
     for i in range(exercise_size):
         random = rand.randrange(len(tables))
@@ -177,7 +177,7 @@ cmd = [
     ("ph", 0, "print hiragana table", lambda : print_table(hiragana_table)),
     ("pk", 0, "print katakana table", lambda : print_table(katakana_table)),
     ("re", 2, "print random kana (reading exercise)", lambda n=100, m=10: reading_exercise(hiragana_list+katakana_list, int(n), int(m))),
-    ("qe", 1, "begin quizz (quizz exercise)", lambda n=10 : quizz_exercice(hiragana_list+katakana_list, int(n))),
+    ("qe", 1, "begin quizz (quizz exercise)", lambda n=10 : quizz_exercise(hiragana_list+katakana_list, int(n))),
     ("q", 0, "quit", lambda : print(''))
     ]
      
