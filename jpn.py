@@ -149,7 +149,8 @@ def exercise_generator(chars):
 def reading_exercise(tables, exercise_size = 10, line_size = 10):
     exercise = exercise_generator(tables)
     for _ in range(math.ceil(exercise_size/line_size)):
-        for _ in range(line_size):
+        for _ in range(min(line_size, exercise_size)):
+            exercise_size -= 1
             print(next(exercise), end="")
         print("")
 
@@ -175,7 +176,7 @@ cmd = [
     ("h", 0, "print help", print_help),
     ("ph", 0, "print hiragana table", lambda : print_table(hiragana_table)),
     ("pk", 0, "print katakana table", lambda : print_table(katakana_table)),
-    ("re", 1, "print random kana (reading exercise)", lambda n=100: reading_exercise(hiragana_list+katakana_list, int(n))),
+    ("re", 2, "print random kana (reading exercise)", lambda n=100, m=10: reading_exercise(hiragana_list+katakana_list, int(n), int(m))),
     ("qe", 1, "begin quizz (quizz exercise)", lambda n=10 : quizz_exercice(hiragana_list+katakana_list, int(n))),
     ("q", 0, "quit", lambda : print(''))
     ]
