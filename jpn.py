@@ -82,18 +82,21 @@ int_to_romaji = ["a","i","u","e","o"]
     
 exceptions = {
     "し" : "shi",
-    "ち" : "chi",
-    "つ" : "tsu",
-    "ふ" : "fu",
     "じ" : "ji",
-    "ず" : "zu",
+    "ち" : "chi",
+    "ぢ" : "ji",
+    "つ" : "tsu",
+    "づ" : "zu",
+    "ふ" : "fu",
     "ん" : "n",
+
     "シ" : "shi",
-    "チ" : "chi",
-    "ツ" : "tsu",
-    "フ" : "fu",
     "ジ" : "ji",
-    "ズ" : "zu",
+    "チ" : "chi",
+    "ヂ" : "ji",
+    "ツ" : "tsu",
+    "ヅ" : "zu",
+    "フ" : "fu",
     "ン" : "n"
 }
 
@@ -107,22 +110,17 @@ def is_romaji(romaji, kana):
     if kana in exceptions.keys():
         return romaji == exceptions[kana]
 
-    if len(romaji) == 1:
+    l = len(romaji)
+
+    if l == 1:
         return (katakana_table[0][1][romaji_to_int[romaji]] == kana or
                 hiragana_table[0][1][romaji_to_int[romaji]] == kana)
     
-    elif len(romaji) == 2:
+    elif l == 2 or l == 3:
         for table in kana_tables.values():
             for i in range(len(table)):
-                if table[i][0] == romaji[0]:
-                    if table[i][1][romaji_to_int[romaji[1]]] == kana:
-                        return True
-        
-    elif len(romaji) == 3:
-        for table in kana_tables.values():
-            for i in range(len(table)):
-                if table[i][0] == romaji[:2]:
-                    if table[i][1][romaji_to_int[romaji[2]]] == kana:
+                if table[i][0] == romaji[:l-1]:
+                    if table[i][1][romaji_to_int[romaji[l-1]]] == kana:
                         return True
     return False
 
