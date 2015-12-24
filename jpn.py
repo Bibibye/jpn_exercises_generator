@@ -168,15 +168,16 @@ def quizz_exercice(tables, exercise_size = 10):
 
 def print_help():
     for i in range(len(cmd)):
-        print(cmd[i][0]+" : "+cmd[i][1])
+        print(cmd[i][0]+" : "+cmd[i][2])
 
 cmd = [
-    ("h", "print help", print_help),
-    ("ph", "print hiragana table", lambda : print_table(hiragana_table)),
-    ("pk", "print katakana table", lambda : print_table(katakana_table)),
-    ("re", "print random kana (reading exercise)", lambda : reading_exercise(hiragana_list+katakana_list, 100)),
-    ("qe", "begin quizz (quizz exercise)", lambda : quizz_exercice(hiragana_list+katakana_list)),
-    ("q", "quit", lambda : print(''))
+    # (cmd, arity, doc, fun)
+    ("h", 0, "print help", print_help),
+    ("ph", 0, "print hiragana table", lambda : print_table(hiragana_table)),
+    ("pk", 0, "print katakana table", lambda : print_table(katakana_table)),
+    ("re", 1, "print random kana (reading exercise)", lambda n=100: reading_exercise(hiragana_list+katakana_list, int(n))),
+    ("qe", 1, "begin quizz (quizz exercise)", lambda n=10 : quizz_exercice(hiragana_list+katakana_list, int(n))),
+    ("q", 0, "quit", lambda : print(''))
     ]
      
 if __name__ == "__main__":
@@ -184,13 +185,17 @@ if __name__ == "__main__":
     quit = False
     while not quit:
         try:
-            user_cmd = input("> ")
-            if user_cmd == "q":
+            user_cmd = input("> ").split(' ')
+            nb_args = len(user_cmd[1:])
+            if user_cmd[0] == "q":
                 quit = True
             else:
                 for i in range(len(cmd)):
-                    if cmd[i][0] == user_cmd:
-                        cmd[i][2]()
+                    if cmd[i][0] == user_cmd[0] and nb_args <= cmd[i][1]:
+                        if nb_args > 0:
+                            cmd[i][3](*user_cmd[1:])
+                        else:
+                            cmd[i][3]()
         except EOFError:
             quit = True
             print('')
